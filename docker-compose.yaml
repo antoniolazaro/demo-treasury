@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13-alpine
+    networks: [ backing-services ] # definição de rede virtual para outros possíveis serviços a serem disponibilizados na mesma rede possam acessar
+    environment:
+      POSTGRES_USER: dockeruser
+      POSTGRES_PASSWORD: dockerpassword
+      POSTGRES_DB: dockerdb
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+
+networks: # configuação de rede virtual
+  backing-services:
+    driver: bridge
