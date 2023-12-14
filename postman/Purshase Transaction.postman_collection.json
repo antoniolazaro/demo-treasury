@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "f86240bd-d827-453a-ab25-db6c048d604f",
+		"name": "Purshase Transaction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2808710"
+	},
+	"item": [
+		{
+			"name": "Transaction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"    ",
+							"    if (jsonData.id) {",
+							"        console.info(`Id found: ${ jsonData.id} `);",
+							"        pm.collectionVariables.set(\"id\", jsonData.id);",
+							"    } else {",
+							"        console.error(\"id not found!\");",
+							"        pm.setNextRequest(null);        ",
+							"    }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"test\",\n    \"transactionDate\": \"2020-06-01\",\n    \"amount\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/purshase",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"purshase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purshase API",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,record_date&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01,record_date:lte:2020-06-01&sort=-record_date&page[number]=1&pagea[size]=10",
+					"protocol": "https",
+					"host": [
+						"api",
+						"fiscaldata",
+						"treasury",
+						"gov"
+					],
+					"path": [
+						"services",
+						"api",
+						"fiscal_service",
+						"v1",
+						"accounting",
+						"od",
+						"rates_of_exchange"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "country_currency_desc,exchange_rate,record_date"
+						},
+						{
+							"key": "filter",
+							"value": "country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01,record_date:lte:2020-06-01"
+						},
+						{
+							"key": "sort",
+							"value": "-record_date"
+						},
+						{
+							"key": "page[number]",
+							"value": "1"
+						},
+						{
+							"key": "pagea[size]",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/purshase/{{id}}?targetExchange=Brazil-Real",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"purshase",
+						"{{id}}"
+					],
+					"query": [
+						{
+							"key": "targetExchange",
+							"value": "Brazil-Real"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
